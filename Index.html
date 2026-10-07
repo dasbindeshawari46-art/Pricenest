@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PriceNest - Compare • Find • Save</title>
+
+  <style>
+    /* =========================
+       BASIC RESET
+    ========================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+      line-height: 1.5;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    /* =========================
+       HEADER
+    ========================== */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      color: #2563eb;
+      white-space: nowrap;
+    }
+
+    .tagline {
+      color: #6b7280;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       MAIN
+    ========================== */
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px 60px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .hero p {
+      color: #6b7280;
+      margin-bottom: 25px;
+    }
+
+    /* =========================
+       SEARCH
+    ========================== */
+    .search-container {
+      max-width: 700px;
+      margin: auto;
+      display: flex;
+      background: white;
+      padding: 6px;
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e5e7eb;
+    }
+
+    .search-container input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 14px 15px;
+      font-size: 16px;
+      min-width: 0;
+    }
+
+    .search-button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 0 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .search-button:hover {
+      background: #1d4ed8;
+    }
+
+    /* =========================
+       DEMO NOTICE
+    ========================== */
+    .demo-notice {
+      max-width: 850px;
+      margin: 25px auto;
+      padding: 12px 16px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* =========================
+       RESULTS
+    ========================== */
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 35px 0 15px;
+      gap: 15px;
+    }
+
+    .results-header h2 {
+      font-size: 22px;
+      color: #111827;
+    }
+
+    .sort-info {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #e5e7eb;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+    }
+
+    .product-top {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .product-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .product-info h3 {
+      font-size: 20px;
+      margin-bottom: 4px;
+      color: #111827;
+    }
+
+    .product-info p {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    /* =========================
+       OFFERS
+    ========================== */
+    .offers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .offer {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 18px;
+      padding: 15px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: #fafafa;
+    }
+
+    .offer.cheapest {
+      border: 2px solid #22c55e;
+      background: #f0fdf4;
+    }
+
+    .store {
+      font-weight: bold;
+      color: #374151;
+    }
+
+    .price-area {
+      text-align: right;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 4px 8px;
+      border-radius: 20px;
+      background: #22c55e;
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      vertical-align: middle;
+    }
+
+    .buy-button {
+      text-decoration: none;
+      background: #2563eb;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .buy-button:hover {
+      background: #1d4ed8;
+    }
+
+    /* =========================
+       NO RESULTS
+    ========================== */
+    .no-results {
+      background: white;
+      padding: 40px 20px;
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+      color: #6b7280;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+    footer {
+      background: #111827;
+      color: #d1d5db;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 13px;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    /* =========================
+       MOBILE RESPONSIVE
+    ========================== */
+    @media (max-width: 650px) {
+
+      .header-container {
+        padding: 13px 15px;
+      }
+
+      .logo {
+        font-size: 22px;
+      }
+
+      .tagline {
+        display: none;
+      }
+
+      main {
+        padding: 30px 15px 45px;
+      }
+
+      .hero h1 {
+        font-size: 29px;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .search-container {
+        width: 100%;
+      }
+
+      .search-container input {
+        font-size: 14px;
+        padding: 13px 10px;
+      }
+
+      .search-button {
+        padding: 0 15px;
+      }
+
+      .results-header {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: 28px;
+      }
+
+      .product-card {
+        padding: 15px;
+      }
+
+      .product-top {
+        gap: 12px;
+      }
+
+      .product-image {
+        width: 65px;
+        height: 65px;
+        font-size: 27px;
+      }
+
+      .product-info h3 {
+        font-size: 17px;
+      }
+
+      .offer {
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+      }
+
+      .store {
+        grid-column: 1;
+      }
+
+      .price-area {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .buy-button {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+      .badge {
+        display: block;
+        width: max-content;
+        margin: 4px 0 0 auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+  <header>
+    <div class="header-container">
+      <div class="logo">PriceNest</div>
+      <div class="tagline">Compare • Find • Save</div>
+    </div>
+  </header>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+  <main>
+
+    <section class="hero">
+      <h1>Find the Best Price</h1>
+      <p>Compare product offers and find the cheapest option.</p>
+
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search products e.g. Realme C61"
+          autocomplete="off"
+        >
+
+        <button class="search-button" onclick="searchProducts()">
+          Search
+        </button>
+      </div>
+    </section>
+
+
+    <div class="demo-notice">
+      <strong>Demo Data:</strong>
+      The prices shown on this website are sample prices for testing.
+      They are NOT live Amazon or Flipkart prices.
+    </div>
+
+
+    <div class="results-header">
+      <h2 id="resultsTitle">Popular Products</h2>
+      <div class="sort-info">Offers sorted from lowest to highest price</div>
+    </div>
+
+
+    <section id="results"></section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+  <footer>
+    <strong>PriceNest</strong> — Compare • Find • Save
+    <br>
+    Demo website using sample product prices.
+  </footer>
+
+
+  <script>
+    /*
+      =========================================
+      PRICENEST DEMO PRODUCT DATA
+      =========================================
+
+      These are SAMPLE prices only.
+
+      To add your own product:
+      1. Copy one product object.
+      2. Change the product name.
+      3. Add Amazon/Flipkart offers.
+      4. Put the real affiliate/product URL
+         inside the "link" field.
+
+      IMPORTANT:
+      These prices are not live prices.
+    */
+
+    const products = [
+      {
+        name: "Realme C61",
+        description: "Budget smartphone - Demo listing",
+        icon: "📱",
+
+        offers: [
+          {
+            store: "Amazon",
+            price: 8999,
+            link: "#"
+          },
+          {
+            store: "Flipkart",
+            price: 8799,
+            link: "#"
+          }
+        ]
+      },
+
+      {
+        name: "Samsung Galaxy M35",
+        description: "5G smartphone - Demo listing",
+        icon: "📱",
+
+        offers: [
+          {
+            store: "Amazon",
+            price: 16999,
+            link: "#"
+          },
+          {
+            store: "Flipkart",
+            price: 16499,
+            link: "#"
+          }
+        ]
+      },
+
+      {
+        name: "iQOO Z10x 5G",
+        description: "5G smartphone - Demo listing",
+        icon: "📱",
+
+        offers: [
+          {
+            store: "Amazon",
+            price: 14999,
+            link: "#"
+          },
+          {
+            store: "Flipkart",
+            price: 14699,
+            link: "#"
+          }
+        ]
+      },
+
+      {
+        name: "POCO M7 Pro 5G",
+        description: "5G smartphone - Demo listing",
+        icon: "📱",
+
+        offers: [
+          {
+            store: "Amazon",
+            price: 13999,
+            link: "#"
+          },
+          {
+            store: "Flipkart",
+            price: 13499,
+            link: "#"
+          }
+        ]
+      },
+
+      {
+        name: "Realme 12x 5G",
+        description: "5G smartphone - Demo listing",
+        icon: "📱",
+
+        offers: [
+          {
+            store: "Amazon",
+            price: 12999,
+            link: "#"
+          },
+          {
+            store: "Flipkart",
+            price: 12499,
+            link: "#"
+          }
+        ]
+      }
+    ];
+
+
+    /*
+      =========================================
+      FORMAT PRICE
+      =========================================
+    */
+
+    function formatPrice(price) {
+      return "₹" + price.toLocaleString("en-IN");
+    }
+
+
+    /*
+      =========================================
+      DISPLAY PRODUCTS
+      =========================================
+    */
+
+    function displayProducts(productList, searchText = "") {
+
+      const results = document.getElementById("results");
+      const resultsTitle = document.getElementById("resultsTitle");
+
+      results.innerHTML = "";
+
+      if (searchText) {
+        resultsTitle.textContent =
+          "Search results for \"" + searchText + "\"";
+      } else {
+        resultsTitle.textContent = "Popular Products";
+      }
+
+
+      /*
+        If no products were found
+      */
+
+      if (productList.length === 0) {
+
+        results.innerHTML = `
+          <div class="no-results">
+            <h3>No product found</h3>
+            <p>
+              Try searching for Realme C61, Samsung Galaxy M35,
+              iQOO Z10x 5G or POCO M7 Pro 5G.
+            </p>
+          </div>
+        `;
+
+        return;
+      }
+
+
+      /*
+        Create each product card
+      */
+
+      productList.forEach(product => {
+
+        /*
+          Copy offers so the original data
+          does not get changed.
+        */
+
+        const sortedOffers = [...product.offers].sort(
+          (a, b) => a.price - b.price
+        );
+
+        /*
+          First offer is the cheapest because
+          the offers are sorted above.
+        */
+
+        const cheapestPrice = sortedOffers[0].price;
+
+
+        let offersHTML = "";
+
+
+        sortedOffers.forEach(offer => {
+
+          const isCheapest =
+            offer.price === cheapestPrice;
+
+
+          offersHTML += `
+            <div class="offer ${isCheapest ? "cheapest" : ""}">
+
+              <div class="store">
+                ${offer.store}
+              </div>
+
+              <div class="price-area">
+
+                <span class="price">
+                  ${formatPrice(offer.price)}
+                </span>
+
+                ${
+                  isCheapest
+                    ? '<span class="badge">Cheapest</span>'
+                    : ""
+                }
+
+              </div>
+
+              <a
+                class="buy-button"
+                href="${offer.link}"
+                onclick="buyNow(event, '${offer.store}')"
+              >
+                Buy Now
+              </a>
+
+            </div>
+          `;
+        });
+
+
+        /*
+          Complete product card
+        */
+
+        results.innerHTML += `
+          <article class="product-card">
+
+            <div class="product-top">
+
+              <div class="product-image">
+                ${product.icon}
+              </div>
+
+              <div class="product-info">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+              </div>
+
+            </div>
+
+            <div class="offers">
+              ${offersHTML}
+            </div>
+
+          </article>
+        `;
+      });
+    }
+
+
+    /*
+      =========================================
+      SEARCH FUNCTION
+      =========================================
+    */
+
+    function searchProducts() {
+
+      const input =
+        document.getElementById("searchInput");
+
+      const searchText =
+        input.value.trim().toLowerCase();
+
+
+      /*
+        Empty search = show all products
+      */
+
+      if (searchText === "") {
+        displayProducts(products);
+        return;
+      }
+
+
+      /*
+        Search product names
+      */
+
+      const filteredProducts =
+        products.filter(product =>
+          product.name.toLowerCase().includes(searchText)
+        );
+
+
+      displayProducts(
+        filteredProducts,
+        input.value.trim()
+      );
+    }
+
+
+    /*
+      =========================================
+      SEARCH WHEN PRESSING ENTER
+      =========================================
+    */
+
+    document
+      .getElementById("searchInput")
+      .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+          searchProducts();
+        }
+
+      });
+
+
+    /*
+      =========================================
+      BUY NOW FUNCTION
+      =========================================
+
+      The demo links currently use "#".
+      Replace them with your real product or
+      affiliate links later.
+    */
+
+    function buyNow(event, store) {
+
+      const link =
+        event.currentTarget.getAttribute("href");
+
+      if (link === "#") {
+
+        event.preventDefault();
+
+        alert(
+          "Demo Buy Now button.\n\n" +
+          "Add your real " +
+          store +
+          " product or affiliate link in the product data."
+        );
+      }
+    }
+
+
+    /*
+      =========================================
+      SHOW PRODUCTS WHEN WEBSITE OPENS
+      =========================================
+    */
+
+    displayProducts(products);
+
+  </script>
+
+</body>
+</html>
